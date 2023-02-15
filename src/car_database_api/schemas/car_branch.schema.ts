@@ -3,6 +3,8 @@ import { HydratedDocument } from 'mongoose';
 
 export type BrandDocument = Car_Brand & Document
 
+Schema()
+
 export class Car_Brand{
     @Prop()
     name :string

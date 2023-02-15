@@ -19,9 +19,8 @@ export class DataService {
       }
     
       async create(createBrandDto: CreateBrandDto): Promise<Car_Brand> {
-        return await new this.model({
-          ...createBrandDto,
-        }).save();
+        const createdBrand = new this.model(createBrandDto);
+        return createdBrand.save();
       }
     
       async update(id: string, updateBrandDto: UpdateBrandDto): Promise<Car_Brand> {
