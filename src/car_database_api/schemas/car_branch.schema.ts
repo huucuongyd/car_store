@@ -1,9 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type BrandDocument = HydratedDocument<Car_Brand>
-
-Schema()
+export type BrandDocument = Car_Brand & Document
 
 export class Car_Brand{
     @Prop()
