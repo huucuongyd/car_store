@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dtos/create-brand.dto';
+import { UpdateBrandDto } from './dtos/update-brand.dto';
 import { Brand } from './intefaces/brand.inteface';
 
 @Controller('brand')
@@ -17,6 +18,11 @@ export class BrandController {
 
   }
 
+  @Get(':id')
+    async find(@Param('id') id: string) {
+      return await this.brandService.findOne(id);
+    }
+
   @Post()
   @ApiOkResponse({ description: 'The brand has been successfully created.' })
   async createBrand(@Body() data: CreateBrandDto) {
@@ -24,4 +30,14 @@ export class BrandController {
     return await this.brandService.create(data);
     
   }
+
+  @Put(':id')
+    async update(@Param('id') id: string, @Body() data: UpdateBrandDto) {
+      return await this.brandService.update(id, data);
+    }
+
+  @Delete(':id')
+    async delete(@Param('id') id: string) {
+      return await this.brandService.delete(id);
+    }
 }
