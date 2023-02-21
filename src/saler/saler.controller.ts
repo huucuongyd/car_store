@@ -1,5 +1,6 @@
 import { Controller, Get , Post, Param, Put, Body, Delete} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { DeleteSuccessfull, GetIdSuccessfull, GetSuccesfull, PostSuccessfull, UpdateSuccessfully } from 'src/utils/response';
 import { CreateSaler } from './dtos/create-saler.dto';
 import { Saler } from './interfaces/saler.interface';
 import { SalerService } from './saler.service';
@@ -11,31 +12,46 @@ export class SalerController {
     constructor(private readonly customerService: SalerService) {}
 
     @Get()
-    async findAll(): Promise<Saler[]> {
-        console.log('listall')
-    return this.customerService.findAll();
+    async findAll(): Promise<any> {
+      const result = await this.customerService.findAll();
+      return new GetSuccesfull('saler',result)
     }
 
     @Get(':id')
     async find(@Param('id') id: string): Promise<any> {
-      return await this.customerService.findOne(id);
+      const result = await this.customerService.findOne(id);
+      return new GetIdSuccessfull('saler',result)
     }
 
     @Post()
     @ApiOkResponse({ description: 'The brand has been successfully created.' })
     async createCar(@Body() data: CreateSaler) {
-        console.log('insert 1 docs');
-        return await this.customerService.create(data);
+        const result = await this.customerService.create(data);
+        try {
+          return new PostSuccessfull('saler',result)
+        } catch (error) {
+          return {
+            message:"Post saler fail"
+          }
+        }
     
     }
 
     @Put(':id')
     async update(@Param('id') id: string, @Body() data: CreateSaler) {
-      return await this.customerService.update(id, data);
+      const result = await this.customerService.update(id, data);
+      try {
+        return new UpdateSuccessfully('saler',result)
+      } catch (error) {
+        return{
+          message:"Update saler fail"
+        }
+      }
     }
 
     @Delete(':id')
     async delete(@Param('id') id: string) {
-      return await this.customerService.delete(id);
+      const result = await this.customerService.delete(id);
+      return new DeleteSuccessfull('saler',result)
     }
 }

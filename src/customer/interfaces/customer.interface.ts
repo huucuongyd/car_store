@@ -2,6 +2,6 @@ export interface Customer extends Document{
     name: String;
     birth: String;
     email: String;
-    phonenumber: Number;
+    phonenumber: String;
     adress: String;
 }

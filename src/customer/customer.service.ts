@@ -9,7 +9,9 @@ import { Customer } from './interfaces/customer.interface';
 export class CustomerService {
     constructor(@InjectModel('Customer') private readonly model: Model<Customer>) {}
     async findAll(): Promise<Customer[]> {
+      
       return await this.model.find().exec();
+      throw new Error("server error");
     }
   
     async findOne(id: string): Promise<Customer> {
