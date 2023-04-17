@@ -5,7 +5,7 @@ export class GetSuccesfull{
         entity:string,
         data:any
     ){
-        this.message = "Get list "+entity+" sucessfuly",
+        this.message = "Get list "+entity+" sucessfully",
         this.data = data
     }
 }
@@ -14,7 +14,7 @@ export class GetIdSuccessfull{
     message:string
     data:any
     constructor(entity:string,data:any){
-        this.message = "Get "+entity+" name: "+ data.name+" succesfully"
+        this.message = "Get "+entity+" succesfully"
         this.data = data
     }
 }

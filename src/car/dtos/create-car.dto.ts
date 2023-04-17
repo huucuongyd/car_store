@@ -5,5 +5,6 @@ export class CreateCarDto{
     version: String;
     maxspeed: Number;
     status: String;
-    price: Number
+    price: Number;
+    brand_id: String;
 }

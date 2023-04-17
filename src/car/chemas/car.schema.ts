@@ -8,7 +8,8 @@ export const CarSchema = new Schema(
     version: String,
     maxspeed: Number,
     status: String,
-    price: Number
+    price: Number,
+    brand_id: String
   },
   { versionKey: false, timestamps: true },
 );
