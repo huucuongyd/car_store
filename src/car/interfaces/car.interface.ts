@@ -7,5 +7,6 @@ export interface Car extends Document {
     version: String;
     maxspeed: Number;
     status: String;
-    price: Number
+    price: Number;
+    brand_id: string
 }

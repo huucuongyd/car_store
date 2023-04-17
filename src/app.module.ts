@@ -7,9 +7,27 @@ import { CarModule } from './car/car.module';
 import { CustomerModule } from './customer/customer.module';
 import { SalerModule } from './saler/saler.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { LoginModule } from './login/login.module';
+import {
+  AcceptLanguageResolver,I18nJsonLoader,
+  I18nModule,
+  QueryResolver,
+} from 'nestjs-i18n';
+import * as path from 'path';
 
 @Module({
-  imports: [
+  imports: [ 
+    I18nModule.forRoot({
+      fallbackLanguage: 'en',
+      loaderOptions: {
+        path: path.join(__dirname, '/i18n/'),
+        watch: true,
+      },
+      resolvers: [
+        { use: QueryResolver, options: ['lang'] },
+        AcceptLanguageResolver,
+      ],
+    }),
     MongooseModule.forRoot(
       'mongodb+srv://NodeJS_Beginning:Anhcuongvp1@cluster0.sdo9noc.mongodb.net/car_store?retryWrites=true&w=majority',
     ),
@@ -18,6 +36,7 @@ import { TransactionModule } from './transaction/transaction.module';
     CustomerModule,
     SalerModule,
     TransactionModule,
+    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],
