@@ -8,21 +8,15 @@ import { PostSuccessfull } from 'src/utils/response';
 @ApiTags('login')
 export class LoginController {
     constructor(private readonly service: LoginService) {}
-    @Post()
+    @Post('register')
     async createCar(@Body() data: CreateUserDto) {
-        const result = await this.service.create(data);
-        try {
-          return new PostSuccessfull('user',result)
-        } catch (error) {
-          return{
-            message:"Post user fail"
-          }
-        }
+        const result = await this.service.register(data);
+        return result
     }
 
-    @Post('user')
-    async loginUser(@Body() user: CreateUserDto){
-        const res = await this.service.login(user)
+    @Post('users')
+    async loginUser(@Body()  { username, password }: { username: string, password: string }){
+        const res = await this.service.login({username,password})
         return res
     }
 }

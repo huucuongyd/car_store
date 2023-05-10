@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put ,Headers, UseGuards} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteSuccessfull, GetIdSuccessfull, GetSuccesfull, PostSuccessfull, UpdateSuccessfully } from 'src/utils/response';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dtos/create-car.dto';
 import { UpdateCarDto } from './dtos/update-car.dto';
-import { Car } from './interfaces/car.interface';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('car')
 @ApiTags('car')
@@ -12,10 +12,14 @@ export class CarController {
     service: any;
     constructor(private readonly carService: CarService) {}
 
-    @Get()
-    async findAll(): Promise<any> {
 
-      const result =await this.carService.findAll();
+    @UseGuards(AuthGuard('jwt'))
+    @Get()
+    async findAll( @Headers('Authorization') authorizationHeader: string): Promise<any> {
+      console.log(authorizationHeader)
+
+      const result = await this.carService.findAll();
+
       return new GetSuccesfull('car',result)
     }
 
