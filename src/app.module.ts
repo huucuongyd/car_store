@@ -13,6 +13,8 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
+import { AuthModule } from './auth/auth.module';
+
 import * as path from 'path';
 
 @Module({
@@ -37,6 +39,8 @@ import * as path from 'path';
     SalerModule,
     TransactionModule,
     LoginModule,
+    AuthModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

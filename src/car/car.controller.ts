@@ -1,10 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put ,Headers, UseGuards} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteSuccessfull, GetIdSuccessfull, GetSuccesfull, PostSuccessfull, UpdateSuccessfully } from 'src/utils/response';
 import { CarService } from './car.service';
 import { CreateCarDto } from './dtos/create-car.dto';
 import { UpdateCarDto } from './dtos/update-car.dto';
-import { Car } from './interfaces/car.interface';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/role.decorator';
+import { Role } from 'src/auth/role.emun';
+import { RolesGuard } from 'src/auth/role.guard';
 
 @Controller('car')
 @ApiTags('car')
@@ -12,14 +15,20 @@ export class CarController {
     service: any;
     constructor(private readonly carService: CarService) {}
 
+
     @Get()
+    @UseGuards(JwtAuthGuard)
     async findAll(): Promise<any> {
 
-      const result =await this.carService.findAll();
+      const result = await this.carService.findAll();
+
       return new GetSuccesfull('car',result)
     }
 
     @Get(':id')
+    @Roles(Role.Admin)
+    @UseGuards(JwtAuthGuard,RolesGuard)
+
     async find(@Param('id') id: string) {
       const result = await this.carService.findOne(id);
       return new GetIdSuccessfull('car',result)
@@ -39,7 +48,7 @@ export class CarController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: string, @Body() data: UpdateCarDto) {
+    async update(@Param('id') id: string, @Body() data: any) {
       const result = await this.carService.update(id, data);
       try {
         return new UpdateSuccessfully('car',result)
