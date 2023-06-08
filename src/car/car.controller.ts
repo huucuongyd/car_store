@@ -4,7 +4,10 @@ import { DeleteSuccessfull, GetIdSuccessfull, GetSuccesfull, PostSuccessfull, Up
 import { CarService } from './car.service';
 import { CreateCarDto } from './dtos/create-car.dto';
 import { UpdateCarDto } from './dtos/update-car.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/role.decorator';
+import { Role } from 'src/auth/role.emun';
+import { RolesGuard } from 'src/auth/role.guard';
 
 @Controller('car')
 @ApiTags('car')
@@ -13,10 +16,9 @@ export class CarController {
     constructor(private readonly carService: CarService) {}
 
 
-    @UseGuards(AuthGuard('jwt'))
     @Get()
-    async findAll( @Headers('Authorization') authorizationHeader: string): Promise<any> {
-      console.log(authorizationHeader)
+    @UseGuards(JwtAuthGuard)
+    async findAll(): Promise<any> {
 
       const result = await this.carService.findAll();
 
@@ -24,6 +26,9 @@ export class CarController {
     }
 
     @Get(':id')
+    @Roles(Role.Admin)
+    @UseGuards(JwtAuthGuard,RolesGuard)
+
     async find(@Param('id') id: string) {
       const result = await this.carService.findOne(id);
       return new GetIdSuccessfull('car',result)
@@ -43,7 +48,7 @@ export class CarController {
     }
 
     @Put(':id')
-    async update(@Param('id') id: string, @Body() data: UpdateCarDto) {
+    async update(@Param('id') id: string, @Body() data: any) {
       const result = await this.carService.update(id, data);
       try {
         return new UpdateSuccessfully('car',result)

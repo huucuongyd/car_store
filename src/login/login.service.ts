@@ -19,7 +19,8 @@ export class LoginService {
         if(bcrypt.compare(password, dataCheck.password)){
           const payload = {
             username: dataCheck.username,
-            email: dataCheck.email
+            email: dataCheck.email,
+            roles: dataCheck.roles
           }
           const data = this.jwtService.sign(payload)
           const mess = 'Login successfully'

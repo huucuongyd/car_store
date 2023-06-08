@@ -2,6 +2,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { jwtConstants } from "src/login/constants";
 
+
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor() {
         super({
@@ -11,8 +12,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         })
     }
 
-    async validate() {
-        console.log('xac thuc thanh cong')
+    async validate(payload: any) {
+        const user = { email: payload.email, username: payload.username};
+        const roles: string[] = payload.roles || [];
+        return {user,roles};
     }
     
 }

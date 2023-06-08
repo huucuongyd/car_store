@@ -38,8 +38,6 @@ export class CarService {
       }
     ])
 
-    console.log(res[0].brand_id)
-
     return res
   }
 
@@ -49,7 +47,7 @@ export class CarService {
     
   }
 
-  async update(id: string, updateBrandDto: UpdateCarDto): Promise<Car> {
+  async update(id: string, updateBrandDto: any): Promise<any> {
     return await this.model.findByIdAndUpdate(id, updateBrandDto).exec();
   }
 
