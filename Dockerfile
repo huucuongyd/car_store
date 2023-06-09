@@ -16,7 +16,7 @@ COPY . .
 # Chạy lệnh build
 RUN npm run build
 
-COPY dist/i18n ./
+COPY dist/i18n ./dist/i18n
 
 # Expose cổng mà ứng dụng NestJS chạy trên
 EXPOSE 3000
