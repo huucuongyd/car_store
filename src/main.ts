@@ -8,6 +8,10 @@ async function bootstrap() {
     rawBody: true,
   });
   app.enableCors();
+
+    // Gọi hàm setupSwagger để cấu hình Swagger
+    setupSwagger(app);
+    
   await app.listen(3000);
 }
 bootstrap();
